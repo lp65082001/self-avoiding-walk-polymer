@@ -1,11 +1,12 @@
 {
-    "average_MW": 13000,
+    "average_MW": 28000,
     "monomer_M": 28,
     "chains": 10,
-    "bond_k": [],
-    "bond_l": [],
-    "angle_k": [],
-    "angle_l": [],
-    "eplison": [],
-    "sigma": []
+    "bond_k": 18,
+    "bond_l": 2.5,
+    "angle_k": 2.06,
+    "angle_l": 168,
+    "eplison": 0.25,
+    "sigma": 4.28,
+    "mode": "single"
 }
