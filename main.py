@@ -1,9 +1,9 @@
 from package.SAW import SAW
-from package.MD import model_universe
+from package.MD import simulator
 import json
 
 # default #
-model_save_path = "./model/"
+model_save_path = "./model/test.data"
 
 
 # get information from config #
@@ -18,7 +18,7 @@ bond_k = data["bond_k"] # unit: kcal/mol/angstrom
 bond_l = data["bond_l"] # unit: angstrom
 angle_k = data["angle_k"] # unit: kcal/mol/radian
 angle_l = data["angle_l"] # unit: theta
-eplison = data["eplison"] # unit: kcal/mol
+epsilon = data["epsilon"] # unit: kcal/mol
 sigma = data["sigma"] # unit angstrom
 mode = data["mode"] # mode:str, (single, distribution)
 
@@ -41,10 +41,11 @@ if mode=="single":
         raise Exception("The angle_k arg is wrong in \"single mode\".")
     if (not isinstance(angle_l,int) or not isinstance(angle_l,float)):
         raise Exception("The angle_l arg is wrong in \"single mode\".")
-    if (not isinstance(eplison,int) or not isinstance(eplison,float)):
+    if (not isinstance(epsilon,int) or not isinstance(epsilon,float)):
         raise Exception("The eplison arg is wrong in \"single mode\".")
     if (not isinstance(sigma,int) or not isinstance(sigma,float)):
         raise Exception("The sigma arg is wrong in \"single mode\".")
+    parameter_package = [mass,bond_k,bond_l,angle_k,angle_l,epsilon,sigma]
     print("Datetype: check")
 elif mode=="distribution":
     pass
@@ -57,6 +58,9 @@ else:
 if __name__ == '__main__':
     SAW_universe = SAW(aMW, mass, chains, bond_l)
     SAW_universe.general_model()
-    SAW_universe.build_lammps_datafile(model_save_path)
+    SAW_universe.build_lammps_datafile(parameter_package,model_save_path)
+
+    equilibrium_lammps  = simulator(parameter_package)
+
 
     pass

@@ -6,7 +6,7 @@
     "bond_l": 2.5,
     "angle_k": 2.06,
     "angle_l": 168,
-    "eplison": 0.25,
+    "epsilon": 0.25,
     "sigma": 4.28,
     "mode": "single"
 }
