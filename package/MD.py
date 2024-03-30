@@ -30,8 +30,8 @@ timestep		20	# 20fs
 velocity 		all create 500.0 4928459 dist gaussian
   
 fix				2 all npt temp 500.0 300.0 200 iso 1.0 1.0 1000
-
-run 100000
-write_data {save_path}
 """
         lmp.commands_string(block)
+        lmp.command("run 100000 pre no post no")
+        lmp.command(f"write_data {save_path}")
+        lmp.close()
