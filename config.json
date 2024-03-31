@@ -1,5 +1,5 @@
 {
-    "average_MW": 28000,
+    "average_MW": 2800,
     "monomer_M": 28,
     "chains": 10,
     "bond_k": 18,
@@ -8,5 +8,7 @@
     "angle_l": 168,
     "epsilon": 0.25,
     "sigma": 4.28,
-    "mode": "single"
+    "mode": "single",
+    "model_init_save_path":"./model/test_ok.data",
+    "model_melt_save_path":"./model/test_m.data"
 }

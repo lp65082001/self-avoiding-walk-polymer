@@ -30,18 +30,12 @@ velocity 		all create 500.0 4928459 dist gaussian
 # reset timestep #
 reset_timestep 0
 
-fix				1 all nvt temp 500.0 500.0 200 
-run 10000
-unfix 1
-
-# reset timestep #
-reset_timestep 0
-
 # run cooling #
 thermo 10000
-fix				2 all npt temp 500.0 500.0 200 iso 1.0 1.0 1000
-run 10000 
+fix				1 all npt temp 500.0 500.0 200 iso 1.0 1.0 1000
+run 50000 
 write_data {save_path}
 """
         lmp.commands_string(block)
         lmp.close()
+    
