@@ -11,7 +11,7 @@ RUN apt-get update && \
     apt-get install python3-pip -y && \
     apt-get install unzip -y && \
     apt-get install unixodbc unixodbc-dev -y && \
-		apt-get install libgl1 -y
+	apt-get install libgl1 -y 
 
 # set image time zone
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends tzdata

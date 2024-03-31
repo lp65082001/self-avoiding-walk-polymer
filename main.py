@@ -27,25 +27,27 @@ mode = data["mode"] # mode:str, (single, distribution)
 #    check config datatype    #
 
 if mode=="single":
-    if (not isinstance(aMW,int) or not isinstance(aMW,float)):
-        raise Exception("The aMW arg is wrong in \"single mode\".")
-    if (not isinstance(mass,int) or not isinstance(mass,float)):
-        raise Exception("The mass arg is wrong in \"single mode\".")
+    if (not isinstance(aMW,int) and not isinstance(aMW,float)):
+        print(not isinstance(aMW,int))
+        print(not isinstance(aMW,float))
+        raise Exception("The aMW arg is wrong in single mode\.")
+    if (not isinstance(mass,int) and not isinstance(mass,float)):
+        raise Exception("The mass arg is wrong in single mode.")
     if (not isinstance(chains,int)):
-        raise Exception("The chains arg is wrong in \"single mode\".")
-    if (not isinstance(bond_k,int) or not isinstance(bond_k,float)):
-        raise Exception("The bond_k arg is wrong in \"single mode\".")
-    if (not isinstance(bond_l,int) or not isinstance(bond_l,float)):
-        raise Exception("The bond_l arg is wrong in \"single mode\".")
-    if (not isinstance(angle_k,int) or not isinstance(angle_k,float)):
-        raise Exception("The angle_k arg is wrong in \"single mode\".")
-    if (not isinstance(angle_l,int) or not isinstance(angle_l,float)):
-        raise Exception("The angle_l arg is wrong in \"single mode\".")
-    if (not isinstance(epsilon,int) or not isinstance(epsilon,float)):
-        raise Exception("The eplison arg is wrong in \"single mode\".")
-    if (not isinstance(sigma,int) or not isinstance(sigma,float)):
-        raise Exception("The sigma arg is wrong in \"single mode\".")
-    parameter_package = [mass,bond_k,bond_l,angle_k,angle_l,epsilon,sigma]
+        raise Exception("The chains arg is wrong in single mode\.")
+    if (not isinstance(bond_k,int) and not isinstance(bond_k,float)):
+        raise Exception("The bond_k arg is wrong in single mode.")
+    if (not isinstance(bond_l,int) and not isinstance(bond_l,float)):
+        raise Exception("The bond_l arg is wrong in single mode.")
+    if (not isinstance(angle_k,int) and not isinstance(angle_k,float)):
+        raise Exception("The angle_k arg is wrong in single mode.")
+    if (not isinstance(angle_l,int) and not isinstance(angle_l,float)):
+        raise Exception("The angle_l arg is wrong in single mode.")
+    if (not isinstance(epsilon,int) and not isinstance(epsilon,float)):
+        raise Exception("The eplison arg is wrong in single mode.")
+    if (not isinstance(sigma,int) and not isinstance(sigma,float)):
+        raise Exception("The sigma arg is wrong in single mode.")
+    parameter_package = [bond_k,bond_l,angle_k,angle_l,epsilon,sigma]
     print("Datetype: check")
 elif mode=="distribution":
     pass
@@ -61,6 +63,7 @@ if __name__ == '__main__':
     SAW_universe.build_lammps_datafile(parameter_package,model_save_path)
 
     equilibrium_lammps  = simulator(parameter_package)
+    equilibrium_lammps.run(model_save_path)
 
-
+    print("done")
     pass

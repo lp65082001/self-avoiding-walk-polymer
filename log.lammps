@@ -1,0 +1,91 @@
+LAMMPS (2 Aug 2023 - Update 3)
+OMP_NUM_THREADS environment is not set. Defaulting to 1 thread. (src/src/comm.cpp:98)
+  using 1 OpenMP thread(s) per MPI task
+#system setting #
+units		real
+boundary	p p p
+atom_style	angle
+bond_style      harmonic
+angle_style   harmonic
+neigh_modify delay 0 every 1
+pair_style lj/cut 20
+
+read_data	./model/test.data
+Reading data file ...
+  orthogonal box = (0 0 0) to (302.5 302.5 302.5)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  10000 atoms
+  scanning bonds ...
+  1 = max bonds/atom
+  scanning angles ...
+  1 = max angles/atom
+  reading bonds ...
+  9990 bonds
+  reading angles ...
+  9980 angles
+Finding 1-2 1-3 1-4 neighbors ...
+  special bond factors lj:    0        0        0       
+  special bond factors coul:  0        0        0       
+     2 = max # of 1-2 neighbors
+     2 = max # of 1-3 neighbors
+     4 = max # of 1-4 neighbors
+     6 = max # of special neighbors
+  special bonds CPU = 0.002 seconds
+  read_data CPU = 0.044 seconds
+
+#minimize 
+minimize 0.0 1.0e-8 1000 100000
+Generated 0 of 0 mixed pair_coeff terms from geometric mixing rule
+Neighbor list info ...
+  update: every = 1 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 22
+  ghost atom cutoff = 22
+  binsize = 11, bins = 28 28 28
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair lj/cut, perpetual
+      attributes: half, newton on
+      pair build: half/bin/newton
+      stencil: half/bin/3d
+      bin: standard
+Per MPI rank memory allocation (min/avg/max) = 9.256 | 9.256 | 9.256 Mbytes
+   Step          Temp          E_pair         E_mol          TotEng         Press     
+         0   0              1966423.5      316230.89      2282654.4      18808.463    
+      1000   0             -13402.842      3598.297      -9804.5455     -2.4202452    
+Loop time of 10.6707 on 1 procs for 1000 steps with 10000 atoms
+
+100.0% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+Minimization stats:
+  Stopping criterion = max iterations
+  Energy initial, next-to-last, final = 
+      2282654.41885869  -9802.57643376032  -9804.54547595115
+  Force two-norm initial, final = 219752.41 12.213131
+  Force max component initial, final = 3127.5824 1.3624972
+  Final line search alpha, max atom move = 0.065589972 0.089366153
+  Iterations, force evaluations = 1000 1387
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 9.1301     | 9.1301     | 9.1301     |   0.0 | 85.56
+Bond    | 0.52716    | 0.52716    | 0.52716    |   0.0 |  4.94
+Neigh   | 0.78274    | 0.78274    | 0.78274    |   0.0 |  7.34
+Comm    | 0.014224   | 0.014224   | 0.014224   |   0.0 |  0.13
+Output  | 8.4417e-05 | 8.4417e-05 | 8.4417e-05 |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 0.2164     |            |       |  2.03
+
+Nlocal:          10000 ave       10000 max       10000 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:           1726 ave        1726 max        1726 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:         873701 ave      873701 max      873701 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 873701
+Ave neighs/atom = 87.3701
+Ave special neighs/atom = 5.988
+Neighbor list builds = 86
+Dangerous builds = 0
