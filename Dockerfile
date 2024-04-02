@@ -1,4 +1,5 @@
-FROM ubuntu:22.04
+#FROM ubuntu:22.04
+FROM nvcr.io/nvidia/cuda:12.1.0-devel-ubuntu22.04 
 
 RUN apt-get update && \
     apt-get upgrade -y && \
@@ -12,7 +13,8 @@ RUN apt-get update && \
     apt-get install unzip -y && \
     apt-get install unixodbc unixodbc-dev -y && \
 	apt-get install libgl1 -y && \
-    apt-get install git -y
+    apt-get install git -y && \
+    apt install mpich --reinstall -y
 
 # set image time zone
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends tzdata
@@ -27,12 +29,3 @@ RUN mkdir /root/code/
 COPY requirements.txt /root/requirements.txt
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
-
-# build lammps  
-RUN git clone https://github.com/lammps/lammps.git
-RUN cd lammps/src
-RUN make yes-most
-RUN make mpi
-RUN cd ../../
-RUN cp ./lammps/src/lmp_mpi ./
-RUN rm -r lammps

@@ -185,3 +185,5 @@ clear
 exitr
 exit
 exit
+ls
+exit
