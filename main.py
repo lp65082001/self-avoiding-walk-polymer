@@ -79,8 +79,10 @@ if __name__ == '__main__':
         with open("lmp_system.in","w") as file:
             file.write(new_file)
 
-        # run in lammps #
-        os.system("mpirun -np 4 ./lmp_mpi -in lmp_system.in")
+        # run in lammps (cpu) #
+        #os.system("mpirun -np 4 ./lmp_mpi -in lmp_system.in")
+        # run in lammps (gpu) #
+        os.system("mpirun -np 4 ./lmp -sf gpu -pk gpu 1 -in lmp_system.in")
         
     elif mode=="distribution":
         pass

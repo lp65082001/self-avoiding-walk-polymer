@@ -8,9 +8,7 @@ angle_style   harmonic
 neigh_modify delay 0 every 1
 pair_style lj/cut 20
 
-read_data ./model/test_ok.data
-
-#minimize 
+read_data ./model/test_ok.data 
 minimize 0.0 1.0e-8 1000 100000
 
 # time integration settings #
