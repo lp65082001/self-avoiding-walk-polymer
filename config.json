@@ -9,6 +9,6 @@
     "epsilon": 0.25,
     "sigma": 4.28,
     "mode": "single",
-    "model_init_save_path":"./model/test_ok.data",
+    "model_init_save_path":"./model/test_1.data",
     "model_melt_save_path":"./model/test_m.data"
 }

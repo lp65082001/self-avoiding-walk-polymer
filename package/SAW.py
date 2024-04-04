@@ -47,20 +47,20 @@ class SAW:
                     if vector[2] >= self.grid_space.shape[0]-1:
                         self.particule_table[i+1,2] = self.particule_table[i+1,2] - self.grid_space.shape[0]
                         check_point = 1
-                    elif(vector[2] <= -1*self.grid_space.shape[0]+1):
+                    elif(vector[2] <= -1 * self.grid_space.shape[0]+1):
                         self.particule_table[i+1,2] = self.particule_table[i+1,2] + self.grid_space.shape[0]
                         check_point = 1
             
-            # unwrap bug #
             if np.linalg.norm(self.particule_table[i+1,0:3] - self.particule_table[i,0:3])>self.grid_space.shape[0]:
                 vector_ = self.particule_table[i+1,0:3] - self.particule_table[i,0:3]
-                vector_num = np.linalg.norm(vector)
-                #self.particule_table[i+1,0] = self.particule_table[i+1,0]-(vector_[0]/vector_num)*self.grid_space.shape[0]
-                #self.particule_table[i+1,1] = self.particule_table[i+1,1]-(vector_[1]/vector_num)*self.grid_space.shape[0]
-                #self.particule_table[i+1,2] = self.particule_table[i+1,2]-(vector_[2]/vector_num)*self.grid_space.shape[0]
-                print(vector_)
-                print(vector_num)
-                print(check_point)
+                vector_num = np.linalg.norm(vector_)
+
+                # positive/negative sign need be careful #
+                scaling = vector_num-self.grid_space.shape[0]/self.grid_space.shape[0]
+
+                self.particule_table[i+1,0] = self.particule_table[i+1,0] - self.particule_table[i+1,0]*scaling
+                self.particule_table[i+1,1] = self.particule_table[i+1,1] - self.particule_table[i+1,1]*scaling
+                self.particule_table[i+1,2] = self.particule_table[i+1,2] - self.particule_table[i+1,2]*scaling
                 # have bug
         print("unwrap done")
 

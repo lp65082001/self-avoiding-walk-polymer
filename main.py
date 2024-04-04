@@ -60,9 +60,9 @@ if __name__ == '__main__':
     
     if mode=="single":
         # generate model #
-        #SAW_universe = SAW(aMW, mass, chains, bond_l)
-        #SAW_universe.general_model()
-        #SAW_universe.build_lammps_datafile(parameter_package,model_init_save_path)
+        SAW_universe = SAW(aMW, mass, chains, bond_l)
+        SAW_universe.general_model()
+        SAW_universe.build_lammps_datafile(parameter_package,model_init_save_path)
 
         # change model name in input file #
         new_file = ""
@@ -82,7 +82,7 @@ if __name__ == '__main__':
         # run in lammps (cpu) #
         #os.system("mpirun -np 4 ./lmp_mpi -in lmp_system.in")
         # run in lammps (gpu) #
-        os.system("mpirun -np 4 ./lmp_mpi -sf gpu -pk gpu 1 -in lmp_system.in")
+        #os.system("mpirun -np 4 ./lmp_mpi -sf gpu -pk gpu 1 -in lmp_system.in")
         
     elif mode=="distribution":
         pass
