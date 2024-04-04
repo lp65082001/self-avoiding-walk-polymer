@@ -82,7 +82,7 @@ if __name__ == '__main__':
         # run in lammps (cpu) #
         #os.system("mpirun -np 4 ./lmp_mpi -in lmp_system.in")
         # run in lammps (gpu) #
-        os.system("mpirun -np 4 ./lmp -sf gpu -pk gpu 1 -in lmp_system.in")
+        os.system("mpirun -np 4 ./lmp_mpi -sf gpu -pk gpu 1 -in lmp_system.in")
         
     elif mode=="distribution":
         pass
