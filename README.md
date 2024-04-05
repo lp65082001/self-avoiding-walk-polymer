@@ -10,25 +10,24 @@ To get started with this project, follow these few steps:
 ```
 git clone https://github.com/lp65082001/self-avoiding-walk-polymer.git
 ```
-2. **Build environment**
-First, build the environment with docker:
+2. **Build environment** Build the environment with docker:
 ```
 docker build -f ./Dockerfile -t saw:v1 .
 ```
-Second, run container (gpu version):
+Run container (gpu version):
 ```
 sudo docker run -i -t  --gpus all -v /in this folder/:/root/ --name=saw_cuda saw:v1
 ```
-Third, add environment parameter to pass mpi under root:
+Add environment parameter to pass mpi under root:
 ```
 export OMPI_ALLOW_RUN_AS_ROOT=1
 export OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
 ```
-Four, download LAMMPS:
+
+3. **Install LAMMPS** Compile LAMMPS with gpu
 ```
 wget https://lammps.sandia.gov/tars/lammps-stable.tar.gz
 ```
-Fifth, compile LAMMPS with gpu:
 
 ## Features
 - Create polymer model by using self avoiding walk
