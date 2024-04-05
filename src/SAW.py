@@ -25,7 +25,7 @@ class SAW:
         rand_init = non_use_[int(random.random() * non_use_.shape[0]),:]
         return rand_init
 
-    # unwrap the model #
+    # unwrap the model (homo)#
     def unwrap_model(self):
         for i in range(self.chains*(self.res-1)):
             if self.particule_table[i+1,3]==self.particule_table[i,3]:
@@ -56,7 +56,46 @@ class SAW:
                 vector_num = np.linalg.norm(vector_)
 
                 # positive/negative sign need be careful #
-                scaling = vector_num-self.grid_space.shape[0]/self.grid_space.shape[0]
+                scaling = (vector_num-self.grid_space.shape[0])/self.grid_space.shape[0]
+                
+                self.particule_table[i+1,0] = self.particule_table[i+1,0] - self.particule_table[i+1,0]*scaling
+                self.particule_table[i+1,1] = self.particule_table[i+1,1] - self.particule_table[i+1,1]*scaling
+                self.particule_table[i+1,2] = self.particule_table[i+1,2] - self.particule_table[i+1,2]*scaling
+                # have bug
+        print("unwrap done")
+    
+    # unwrap the model (heter)#
+    def unwrap_model_heter(self):
+        for i in range(np.sum(self.number_unit_list-1)):
+            if self.particule_table[i+1,3]==self.particule_table[i,3]:
+                check_point = 0
+                vector = self.particule_table[i+1] - self.particule_table[i]
+                if abs(vector[0])>=self.grid_space.shape[0]-1 or abs(vector[1])>=self.grid_space.shape[0]-1 or abs(vector[2])>=self.grid_space.shape[0]-1:
+                    if vector[0] >= self.grid_space.shape[0]-1:
+                        self.particule_table[i+1,0] = self.particule_table[i+1,0] - self.grid_space.shape[0]
+                        check_point = 1
+                    elif(vector[0] <= -1*self.grid_space.shape[0]+1):
+                        self.particule_table[i+1,0] = self.particule_table[i+1,0] + self.grid_space.shape[0]
+                        check_point = 1
+                    if vector[1] >= self.grid_space.shape[0]-1:
+                        self.particule_table[i+1,1] = self.particule_table[i+1,1] - self.grid_space.shape[0]
+                        check_point = 1
+                    elif(vector[1] <= -1*self.grid_space.shape[0]+1):
+                        self.particule_table[i+1,1] = self.particule_table[i+1,1] + self.grid_space.shape[0]
+                        check_point = 1
+                    if vector[2] >= self.grid_space.shape[0]-1:
+                        self.particule_table[i+1,2] = self.particule_table[i+1,2] - self.grid_space.shape[0]
+                        check_point = 1
+                    elif(vector[2] <= -1 * self.grid_space.shape[0]+1):
+                        self.particule_table[i+1,2] = self.particule_table[i+1,2] + self.grid_space.shape[0]
+                        check_point = 1
+            
+            if np.linalg.norm(self.particule_table[i+1,0:3] - self.particule_table[i,0:3])>self.grid_space.shape[0]:
+                vector_ = self.particule_table[i+1,0:3] - self.particule_table[i,0:3]
+                vector_num = np.linalg.norm(vector_)
+
+                # positive/negative sign need be careful #
+                scaling = (vector_num-self.grid_space.shape[0])/self.grid_space.shape[0]
 
                 self.particule_table[i+1,0] = self.particule_table[i+1,0] - self.particule_table[i+1,0]*scaling
                 self.particule_table[i+1,1] = self.particule_table[i+1,1] - self.particule_table[i+1,1]*scaling
@@ -88,7 +127,7 @@ class SAW:
   
         return rand_orientation
         
-    # model generation #
+    # model generation (homo)#
     def general_model(self):
         # calculate number unit #
         number_unit = int(abs(self.aMW/self.mass))
@@ -127,7 +166,47 @@ class SAW:
         self.particule_table[:,0:3] = self.particule_table[:,0:3] * self.bond_l
         self.init_box_size = eval_grid * self.bond_l
 
-    # write the model into lammps data format #
+    # model generation (heter) #
+    def general_model_heter(self):
+        # calculate number unit #
+        number_unit = int(abs(self.aMW/self.mass))
+        self.number_unit_list = np.random.normal(number_unit, 10, self.chains).astype(int)
+        #self.res = number_unit
+
+        # create grid space #
+        eval_grid = int(pow(np.sum(self.number_unit_list), 1/3)+100)
+        self.grid_space = np.zeros((eval_grid,eval_grid,eval_grid)).astype(int)
+
+        # particule table #
+        self.particule_table = np.zeros((np.sum(self.number_unit_list),4)).astype(int)
+
+        # warking #
+        num_index = 0 
+        for num_chains in trange(self.chains):
+            # create initial coordination #
+            init_coordination = self.random_init_coordination()
+            self.particule_table[num_index,0:3] = init_coordination
+            self.particule_table[num_index,3] = num_chains
+            self.grid_space[init_coordination[0],init_coordination[1],init_coordination[2]] = 1
+            next_coordination = init_coordination
+            num_index += 1
+            for num_particule in range(self.number_unit_list[num_chains]-1):
+                new_next_coordination = self.random_decide_orientation(next_coordination)
+                self.particule_table[num_index,0:3] = new_next_coordination
+                self.particule_table[num_index,3] = num_chains
+                self.grid_space[new_next_coordination[0],new_next_coordination[1],new_next_coordination[2]] = 1
+                next_coordination = new_next_coordination
+                num_index += 1
+
+        # unwrap model #
+        self.unwrap_model_heter()
+
+        # rescaling grid space to real space #
+        self.particule_table = self.particule_table.astype(float)
+        self.particule_table[:,0:3] = self.particule_table[:,0:3] * self.bond_l
+        self.init_box_size = eval_grid * self.bond_l
+
+    # write the model into lammps data format (homo)#
     def build_lammps_datafile(self,parameter,path = None):
         if path == None:
             path = "./test.data"
@@ -193,6 +272,79 @@ class SAW:
             for i in range(0,self.res-2):
                 f.write(str(n)+" 1 "+str(i+1+j*(self.res))+" "+str(i+2+j*(self.res))+" "+str(i+3+j*(self.res))+"\n")
                 n += 1
+        f.write("\n")
+        f.close()
+
+    # write the model into lammps data format (heter)#
+    def build_lammps_datafile_heter(self,parameter,path = None):
+        if path == None:
+            path = "./test.data"
+
+        # bond and angle table #
+        self.bond_num = np.sum(self.number_unit_list - 1)
+        self.angle_num = np.sum(self.number_unit_list-2)
+
+        #header#
+        f = open(f"{path}", 'w')
+        f.write("Created by Amborse hui from M^5 lab\n")
+        f.write("\n")
+        f.write(f"{self.particule_table.shape[0]} atoms\n")
+        f.write("1 atom types\n")
+        f.write(f"{self.bond_num} bonds\n")
+        f.write("1 bond types\n")
+        f.write(f"{self.angle_num} angles\n")
+        f.write("1 angle types\n")
+        f.write("\n")
+        f.write(f"0.0 {self.init_box_size} xlo xhi\n")
+        f.write(f"0.0 {self.init_box_size} ylo yhi\n") 
+        f.write(f"0.0 {self.init_box_size} zlo zhi\n")  
+        f.write("\n")
+        f.write("Masses\n")
+        f.write("\n")
+        f.write(f"1 {self.mass} \n")
+        f.write("\n")
+        f.write("Pair Coeffs # lj/cut\n")
+        f.write("\n")
+        f.write(f"1 {parameter[4]} {parameter[5]}\n")
+        f.write("\n")
+        f.write("Bond Coeffs # harmonic\n")
+        f.write("\n")
+        f.write(f"1 {parameter[0]} {parameter[1]}\n")
+        f.write("\n")
+        f.write("Angle Coeffs # harmonic\n")
+        f.write("\n")
+        f.write(f"1 {parameter[2]} {parameter[3]}\n")
+        f.write("\n")
+
+        # Atom list
+        f.write("Atoms #angle \n")
+        f.write("\n")
+        for i in range(0,self.particule_table.shape[0]):
+            f.write(str(i+1)+" 1 1 "+str(self.particule_table[i,0])+" "+str(self.particule_table[i,1])+" "+str(self.particule_table[i,2])+" 0 0 0\n")
+        f.write("\n")
+
+        # Bond list
+        f.write("Bonds\n")
+        f.write("\n")
+        n = 1
+        num_resid = 0
+        for j in range(0,self.chains):
+            for i in range(0,self.number_unit_list[j]-1):
+                f.write(str(n)+" 1 "+str(i+1+num_resid)+" "+str(i+2+num_resid)+"\n")
+                n += 1
+            num_resid += self.number_unit_list[j]
+        f.write("\n")
+
+        # angle list
+        f.write("Angles\n")
+        f.write("\n")
+        n = 1
+        num_resid = 0
+        for j in range(0,self.chains):
+            for i in range(0,self.number_unit_list[j]-2):
+                f.write(str(n)+" 1 "+str(i+1+num_resid)+" "+str(i+2+num_resid)+" "+str(i+3+num_resid)+"\n")
+                n += 1
+            num_resid += self.number_unit_list[j]
         f.write("\n")
         f.close()
 

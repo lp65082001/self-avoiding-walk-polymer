@@ -203,3 +203,11 @@ python3 main.py
 python3 main.py 
 clear
 exit
+python3 main.py 
+python3 main.py 
+python3 main.py 
+python3 main.py 
+python3 main.py 
+clear
+clear
+exit
