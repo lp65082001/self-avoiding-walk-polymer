@@ -24,11 +24,26 @@ export OMPI_ALLOW_RUN_AS_ROOT=1
 export OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
 ```
 
-3. **Install LAMMPS** Compile LAMMPS with gpu
+3. **Install LAMMPS** Compile LAMMPS with gpu (option)
 ```
 wget https://lammps.sandia.gov/tars/lammps-stable.tar.gz
+```
+unzip LAMMPS:
+```
+tar-xzvf lammps*.tar.gz
+```
+compile with gpu:
+```
+cd lammps                # change to the LAMMPS distribution directory
+mkdir build; cd build    # create and use a build directory
+cmake -D BUILD_MPI=yes -D LAMMPS_MACHINE=mpi -D PKG_GPU=on -D GPU_API=cuda -D GPU_ARCH=sm_75 -D PKG_OPT=yes -D PKG_PERI=yes -D PKG_KSPACE=yes -D PKG_MC=yes -D PKG_MOLECULE=yes -D PKG_RIGID=yes -D PKG_MPIIO=yes -D PKG_VORONOI=yes -D DOWNLOAD_PLUMED=yes -D PKG_USER-PLUMED=yes -D PKG_USER-OMP=yes ../cmake
+```
+cmake install:
+```
+cmake --build .          # compilation (or type "make")
 ```
 
 ## Features
 - Create polymer model by using self avoiding walk
-- Collaboration with other developers
+- Automate to using LAMMPS
+- Automate create sample with random parameter
