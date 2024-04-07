@@ -12,6 +12,4 @@
     "mode": "single_heter",
     "device": "test",
     "model_init_save_path":"./model/"
-
-    
 }

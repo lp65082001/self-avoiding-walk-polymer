@@ -36,11 +36,30 @@ compile with gpu:
 ```
 cd lammps                # change to the LAMMPS distribution directory
 mkdir build; cd build    # create and use a build directory
-cmake -D BUILD_MPI=yes -D LAMMPS_MACHINE=mpi -D PKG_GPU=on -D GPU_API=cuda -D GPU_ARCH=sm_75 -D PKG_OPT=yes -D PKG_PERI=yes -D PKG_KSPACE=yes -D PKG_MC=yes -D PKG_MOLECULE=yes -D PKG_RIGID=yes -D PKG_MPIIO=yes -D PKG_VORONOI=yes -D DOWNLOAD_PLUMED=yes -D PKG_USER-PLUMED=yes -D PKG_USER-OMP=yes ../cmake
+cmake -D BUILD_MPI=yes -D LAMMPS_MACHINE=mpi -D PKG_GPU=on -D GPU_API=cuda -D GPU_ARCH=sm_86 -D PKG_OPT=yes -D PKG_PERI=yes -D PKG_KSPACE=yes -D PKG_MC=yes -D PKG_MOLECULE=yes -D PKG_RIGID=yes -D PKG_MPIIO=yes -D PKG_VORONOI=yes -D DOWNLOAD_PLUMED=yes -D PKG_USER-PLUMED=yes -D PKG_USER-OMP=yes ../cmake
 ```
 cmake install:
 ```
 cmake --build .          # compilation (or type "make")
+```
+
+4. **How to use ?** Using config.json:
+```
+{
+    "average_MW": 2800, # average molecular weight, unit: g/mol
+    "monomer_M": 28, # monomer molecular weight, unit: g/mol
+    "chains": 10, # number of chain
+    "bond_k": 18, # Bond spring, unit: kcal/mol/angstrom
+    "bond_l": 2.5, # Bond length, unit: angstrom
+    "angle_k": 2.06, # angle spring, unit: kcal/mol/radian
+    "angle_l": 168, # angle, # unit: theta
+    "epsilon": 0.25, # unit: kcal/mol
+    "sigma": 4.28, # unit angstrom
+    "num_sample": 1, # number of sample
+    "mode": "single_heter", # mode
+    "device": "cpu", # device
+    "model_init_save_path":"./model/" # save dir
+}
 ```
 
 ## Features
