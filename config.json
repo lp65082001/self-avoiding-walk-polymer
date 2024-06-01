@@ -9,7 +9,7 @@
     "epsilon": 0.25,
     "sigma": 4.28,
     "num_sample": 1,
-    "mode": "single_heter",
+    "mode": "single_homo",
     "device": "test",
     "model_init_save_path":"./model/"
 }

@@ -211,3 +211,5 @@ python3 main.py
 clear
 clear
 exit
+clear
+exit
