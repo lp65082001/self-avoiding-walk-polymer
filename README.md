@@ -62,6 +62,9 @@ cmake --build .          # compilation (or type "make")
 }
 ```
 
+5. **Implement method of Self-avoiding walk**
+<img src="./figure/intro.png" width="50%">
+
 ## Features
 - Create polymer model by using self avoiding walk
 - Automate to using LAMMPS
