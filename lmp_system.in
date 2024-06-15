@@ -9,7 +9,7 @@ neigh_modify delay 0 every 1
 
 pair_style lj/cut 20
 
-read_data ./model/heter_single.data 
+read_data ./model/homo_single.data 
 minimize 0.0 1.0e-8 1000 100000
 
 # time integration settings #
@@ -25,4 +25,4 @@ reset_timestep 0
 thermo 10000
 fix				1 all npt temp 500.0 500.0 200 iso 1.0 1.0 1000
 run 50000 
-write_data ./model/heter_single_m.data
+write_data ./model/homo_single_m.data
