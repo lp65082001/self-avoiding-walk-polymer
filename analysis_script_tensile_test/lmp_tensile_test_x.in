@@ -10,14 +10,14 @@ neigh_modify delay 0 every 1
 pair_style lj/cut 20
 
 # read model #
-read_data ./model/homo_single.data 
-minimize 0.0 1.0e-8 1000 100000
+read_data ./pva_model.data 
+#minimize 0.0 1.0e-8 1000 100000
 
 # time integration settings #
-timestep		20	# 20fs
+timestep		4	# 20fs
 
 # thermosystem set #
-velocity 		all create 300.0 4928459 dist gaussian
+#velocity 		all create 300.0 4928459 dist gaussian
   
 # reset timestep #
 reset_timestep 0
@@ -31,6 +31,10 @@ unfix 1
 
 # run tensile test #
 reset_timestep 0
+thermo 10000
+thermo_style custom step temp lx ly lz vol cpu
+dump 1 all dcd 10000 out.dcd
+dump_modify 1 unwrap yes
 fix             1 all npt temp 300.0 300.0 200 x 1.0 -600 1000 y 1.0 1.0 1000 z 1.0 1.0 1000
-run 500000
-write ./tensile_test_x.data
+run 100000
+write_data ./tensile_test_x.data
