@@ -1,0 +1,18 @@
+{
+    "/root/self-avoiding-walk-polymer/analysis_script_tensile_test/datafile/pva_min2.pdb": {
+        "strain": -0.00025416849633081486,
+        "young_modulus_mpa": -118031.93721126352,
+        "lx_initial_angstrom": 84.73708546602607,
+        "lx_final_angstrom": 84.71554796842972,
+        "deformed_pdb": "/root/self-avoiding-walk-polymer/analysis_script_tensile_test/output/pva_min2_tensile.pdb",
+        "tensile_dcd": "/root/self-avoiding-walk-polymer/analysis_script_tensile_test/output/pva_min2_tensile.dcd"
+    },
+    "/root/self-avoiding-walk-polymer/analysis_script_tensile_test/datafile/pva_min.pdb": {
+        "strain": -0.0003677574900428326,
+        "young_modulus_mpa": -81575.4969300718,
+        "lx_initial_angstrom": 84.73708546602607,
+        "lx_final_angstrom": 84.70592276816154,
+        "deformed_pdb": "/root/self-avoiding-walk-polymer/analysis_script_tensile_test/output/pva_min_tensile.pdb",
+        "tensile_dcd": "/root/self-avoiding-walk-polymer/analysis_script_tensile_test/output/pva_min_tensile.dcd"
+    }
+}

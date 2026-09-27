@@ -1,7 +1,7 @@
 {
     "average_MW": 4450,
     "monomer_M": 44.5,
-    "chains": 100,
+    "chains": 10,
     "bond_k": 1463.4,
     "bond_l": 2.6,
     "angle_k": 2.0,
@@ -11,5 +11,10 @@
     "num_sample": 1,
     "mode": "single_homo",
     "device": "cpu",
-    "model_init_save_path":"./model/"
+    "model_init_save_path": "./model/",
+    "eq_steps": 5000,
+    "eq_temperature": 500.0,
+    "eq_pressure": 1.0,
+    "timestep_fs": 4.0,
+    "report_interval": 1000
 }
